@@ -1,0 +1,8 @@
+rawr 0.1.1
+--------
+  * added Gwet functions
+  * added wide/long version of disease data to replace testset; fixed examples
+
+rawr 0.1.0
+--------
+  * initial build
