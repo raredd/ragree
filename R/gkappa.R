@@ -63,11 +63,12 @@ gkappa <- function(ratings, data, id = 'id', rater = 'rater', score = 'score') {
   }
   
   if (!missing(ratings)) {
+    ratings <- as.matrix(ratings)
     N <- nrow(ratings)
     K <- ncol(ratings)
-    R <- length(unique(unlist(ratings)))
+    R <- length(unique(c(ratings)))
     tmp <- ftable(data.frame(id = rep(1:N, K),
-                             score = unlist(ratings)))[1:N, , drop = FALSE]
+                             score = c(ratings)))[1:N, , drop = FALSE]
   }
   
   ## proportion of all classifications assigned to category j
