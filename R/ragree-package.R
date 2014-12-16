@@ -3,11 +3,7 @@
 #' Various measures for quantifying rater agreement
 #' 
 #' @name ragree-package
-#' @aliases ragree
 #' @docType package
-#' @title Rater agreement
-#' @author \email{rredd@@jimmy.harvard.edu}
-#' @keywords rater agreement kappa unalikeability unalike
 NULL
 
 #' Disease severity rating of 27 patients by four ophthalmologists per person
@@ -15,10 +11,6 @@ NULL
 #' Sample data in which 27 patients with a particular retinopathy had the
 #' severity of their retinopathy rated by four ophthalmologists.
 #' 
-#' @name disease.l
-#' @docType data
-#' @keywords data disease
-#' @usage disease.l
 #' @seealso \code{\link{disease.w}}
 #' @format An object of class \code{data.frame} containing 108 observations and
 #' 3 variables:
@@ -29,17 +21,13 @@ NULL
 #' \tab \code{category} \tab disease severity \cr
 #' }
 #' 
-NULL
+"disease.l"
 
 #' Disease severity rating of 27 patients by four ophthalmologists per person
 #' 
 #' Sample data in which 27 patients with a particular retinopathy had the
 #' severity of their retinopathy rated by four ophthalmologists.
 #' 
-#' @name disease.w
-#' @docType data
-#' @keywords data disease
-#' @usage disease.w
 #' @seealso \code{\link{disease.l}}
 #' @format An object of class \code{data.frame} containing 27 observations and
 #' 4 variables:
@@ -51,4 +39,4 @@ NULL
 #' \tab \code{rater4} \tab opthalmologist 4 ratings \cr
 #' }
 #' 
-NULL
+"disease.w"

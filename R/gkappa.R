@@ -2,9 +2,6 @@
 #' 
 #' Calculates generalized kappa for k-raters
 #' 
-#' @usage 
-#' gkappa(ratings, data, id = 'id', rater = 'rater', score = 'score')
-#' 
 #' @param ratings \code{n * m} matrix or data frame; \code{n} subjects, 
 #' \code{m} raters
 #' @param data data in long format with three columns: ids, raters, scores
@@ -28,7 +25,7 @@
 #' \tab \code{$stat.name} \tab test statistic name \cr
 #' \tab \code{$p.value} \tab p-value comparing statistic to standard normal 
 #' distribution \cr \cr
-#' \tab \code{\strong{$detail}} \tab \strong{a list of three containing:} \cr
+#' \tab \code{\$detail} \tab \strong{a list of three containing:} \cr
 #' \tab \code{...$p_hat_j} \tab proportion of all classifications assigned to 
 #' category j; the pairwise agreement \cr
 #' \tab \code{...$p_bar} \tab overall agreement \cr

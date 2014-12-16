@@ -1,7 +1,8 @@
 #' ragree class print method
-#' @usage print(x, ...)
+#' 
 #' @param x object of class 'ragree'
 #' @param ... other arguments passed to or from other methods
+#' 
 #' @export
 
 print.ragree <- function (x, ...) {
@@ -85,9 +86,8 @@ print.ragree1 <- function (x, digits = 4L, quote = TRUE, prefix = "", ...) {
 #' 
 #' Likelihood ratio chi-squared test for two-way contingency tables.
 #' 
-#' @usage lr.test(x, print = TRUE)
 #' @param x two-way table
-#' @param print logical; print summary of test
+#' @param print logical; if \code{TRUE}, prints summary of test
 #' @references 
 #' \url{http://ww2.coastal.edu/kingw/statistics/R-tutorials/loglin.html}
 #' 
@@ -122,7 +122,8 @@ lr.test <- function(x, print = TRUE) {
 }
 
 ## rawr::pvalr
-pvalr <- function(pvals, sig.limit = .001, digits = 3, html = FALSE) {
+pvalr <- function(pvals, sig.limit = .001, digits = 3, html = FALSE, 
+         show.p = FALSE) {
   ## rawr::roundr
   roundr <- function(x, digits = 1) {
     res <- sprintf(paste0('%.', digits, 'f'), x)
@@ -131,12 +132,20 @@ pvalr <- function(pvals, sig.limit = .001, digits = 3, html = FALSE) {
     res
   }
   sapply(pvals, function(x, sig.limit) {
-    if (x < sig.limit)
+    if (is.na(x))
+      return(NA)
+    if (x >= 1)
+      return('1')
+    if (x < sig.limit) {
+      if (show.p) p <- 'p ' else p <- ''
       if (html)
-        return(sprintf('&lt; %s', format(sig.limit))) else
-          return(sprintf('< %s', format(sig.limit)))
-    if (x > .1)
-      return(roundr(x, digits = 2)) else
-        return(roundr(x, digits = digits))
+        return(sprintf('%s&lt; %s', p, format(sig.limit))) else
+          return(sprintf('%s< %s', p, format(sig.limit)))
+    } else {
+      if (show.p) p <- 'p = ' else p <- ''
+      if (x > .1)
+        return(sprintf('%s%s', p, roundr(x, digits = 2))) else
+          return(sprintf('%s%s', p, roundr(x, digits = digits)))
+    }
   }, sig.limit = sig.limit)
 }

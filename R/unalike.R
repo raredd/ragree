@@ -3,15 +3,6 @@
 #' Function to calculate the unalikeability coefficient to quantify the amount 
 #' of variability in categorical data.
 #' 
-#' @usage
-#' unalike(...)
-#' 
-#' ## S3 method for class 'matrix':
-#' unalike(x, ...)
-#' 
-#' ## S3 method for class 'data.frame':
-#' unalike(x, id, rater, score, summary = TRUE, plot = FALSE)
-#' 
 #' @param ... numeric values or vector representing the count of each variable
 #' @param x an \code{n x r} matrix of \code{n} subjects by \code{r} raters or
 #' an \code{n x m} data frame of \code{n} subjects; when \code{x} is a data 
@@ -88,7 +79,9 @@
 
 unalike <- function(...) UseMethod('unalike')
 
+#' @rdname unalike
 #' @export
+
 unalike.default <- function(...) {
   input <- list(...)
   
@@ -112,7 +105,9 @@ unalike.default <- function(...) {
   }
 }
 
+#' @rdname unalike
 #' @export
+
 unalike.matrix <- function(x, ...) {
   x <- as.data.frame(cbind(id = 1:nrow(x), x))
   x <- reshape(x, idvar = 'id', varying = list(2:ncol(x)), direction = 'long')
@@ -120,7 +115,9 @@ unalike.matrix <- function(x, ...) {
   unalike.data.frame(x, id = 'id', rater = 'rater', score = 'score', ...)
 }
 
+#' @rdname unalike
 #' @export
+
 unalike.data.frame <- function(x, id, rater, score, 
                                summary = TRUE, plot = FALSE) {
 

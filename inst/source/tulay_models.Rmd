@@ -1,0 +1,51 @@
+### tulay loglinear
+
+```{r data, tidy=FALSE}
+library(sjPlot)
+dat <- data.frame(a = rep(1:3, each = 9),
+                  b = rep(1:3, each = 3), 
+                  c = 1:3,
+                  score = c(18,4,0,1,1,0,0,2,0,
+                            2,3,0,3,4,0,4,10,0,
+                            0,0,0,0,2,1,3,16,44))
+
+(dat <- within(dat, {
+  abc <- ifelse(a == b & b == c, 1, 0)
+  bc <- ifelse(b == c, 1, 0)
+  ac <- ifelse(a == c, 1, 0)
+  ab <- ifelse(a == b, 1, 0)
+  b_c <- b * c
+  a_c <- a * c
+  a_b <- a * b
+  a_b_c <- a * b * c
+}))
+```
+
+#### agreement among all raters (section 2.4.1.2)
+
+```{r models1, fig.width=7, fig.height=7}
+# library(MASS)
+# loglm(score ~ a + b + c + ab + ac + bc + abc, data = dat)
+
+fit1 <- glm(score ~ factor(a) + factor(b) + factor(c) + factor(ab) + factor(ac) + factor(bc) + factor(abc), data = dat, family = 'poisson')
+
+fit2 <- glm(score ~ factor(a) + factor(b) + factor(c) + a_b + a_c + b_c + factor(ab) + factor(ac) + factor(bc) + factor(abc), data = dat, family = poisson)
+
+fit3 <- glm(score ~ factor(a) + factor(b) + factor(c) + a_b + a_c + b_c + a_b_c, data = dat, family = poisson)
+
+fit4 <- glm(score ~ factor(a) + factor(b) + factor(c) + a_b + a_c + b_c + ab + ac + bc, data = dat, family = poisson)
+
+fit5 <- glm(score ~ factor(a) + factor(b) + factor(c) + a_b + a_c + b_c + factor(abc), data = dat, family = poisson)
+
+fit6 <- glm(score ~ factor(a) + factor(b) + factor(c) + a_b + a_c + b_c + a_b_c + factor(ab) + factor(ac) + factor(bc), data = dat, family = poisson)
+
+fit7 <- glm(score ~ factor(a) + factor(b) + factor(c) + a_b + a_c + b_c + a_b_c + factor(ab) + factor(ac) + factor(bc) + factor(abc), data = dat, family = poisson)
+
+summary(fit5)
+plot(fit5)
+# sjt.glm(fit5)
+# sjp.glm(fit5)
+# sjp.glm.ma(fit5)
+```
+
+
