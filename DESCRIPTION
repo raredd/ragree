@@ -2,15 +2,15 @@ Package: ragree
 Type: Package
 Title: Rater agreement
 Description: Various measures for quantifying rater agreement
-Version: 0.1.1
-Author: Robert Redd <rredd@jimmy.harvard.edu>
-Maintainer: Robert Redd <rredd@jimmy.harvard.edu>
+Version: 0.2.0
+Authors@R: person("Robert", "Redd", email = "rredd@jimmy.harvard.edu",
+  role = c("aut", "cre"))
 Depends:
     R (>= 3.0.2)
 Suggests:
     irr,
     ggplot2
-License: GPL-3 + file LICENSE
+License: GPL-2
 LazyData: true
 URL: https://github.com/raredd/ragree
 Roxygen: list(wrap = FALSE)
