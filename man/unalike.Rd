@@ -7,28 +7,28 @@
 \alias{unalike.matrix}
 \title{Coefficient of unalikeability}
 \usage{
-unalike(...)
+unalike(x, ...)
 
-\method{unalike}{default}(...)
+\method{unalike}{default}(x, ...)
 
 \method{unalike}{matrix}(x, ...)
 
-\method{unalike}{data.frame}(x, id, rater, score, summary = TRUE,
+\method{unalike}{data.frame}(x, ..., id, rater, score, summary = TRUE,
   plot = FALSE)
 }
 \arguments{
-\item{...}{numeric values or vector representing the count of each variable}
-
 \item{x}{an \code{n x r} matrix of \code{n} subjects by \code{r} raters or
 an \code{n x m} data frame of \code{n} subjects; when \code{x} is a data
 frame, the user must specify which columns correspond to \code{id},
 \code{rater}, and \code{score}}
 
-\item{id}{data frame column name corresponding to IDs}
+\item{...}{numeric values or vector representing the count of each variable}
 
-\item{rater}{data frame column name corresponding to raters}
+\item{id}{column name corresponding to IDs}
 
-\item{score}{data frame column name corresponding to rater scores}
+\item{rater}{column name corresponding to raters}
+
+\item{score}{column name corresponding to rater scores}
 
 \item{summary}{logical; if \code{TRUE}, prints summary statistics for the
 unalikeability coefficients}
@@ -90,12 +90,11 @@ mat <- do.call(cbind, l)
 colnames(mat) <- c('g1','g2','g3')
 unalike(t(mat)) ## see Kader
 
-\dontrun{
-library(irr)
+library('irr')
+library('ggplot2')
 data(diagnoses)
 kappam.fleiss(diagnoses)
 unalike(as.matrix(diagnoses), plot = TRUE)
-}
 }
 \author{
 Robert Redd \email{rredd@jimmy.harvard.edu}

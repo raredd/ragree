@@ -8,9 +8,9 @@
 #' an \code{n x m} data frame of \code{n} subjects; when \code{x} is a data 
 #' frame, the user must specify which columns correspond to \code{id}, 
 #' \code{rater}, and \code{score}
-#' @param id data frame column name corresponding to IDs
-#' @param rater data frame column name corresponding to raters
-#' @param score data frame column name corresponding to rater scores
+#' @param id column name corresponding to IDs
+#' @param rater column name corresponding to raters
+#' @param score column name corresponding to rater scores
 #' @param summary logical; if \code{TRUE}, prints summary statistics for the
 #' unalikeability coefficients
 #' @param plot logical; if \code{TRUE}, prints a heat map of unalikeability
@@ -69,21 +69,21 @@
 #' colnames(mat) <- c('g1','g2','g3')
 #' unalike(t(mat)) ## see Kader
 #' 
-#' \dontrun{
-#' library(irr)
+#' library('irr')
+#' library('ggplot2')
 #' data(diagnoses)
 #' kappam.fleiss(diagnoses)
 #' unalike(as.matrix(diagnoses), plot = TRUE)
-#' }
+#' 
 #' @export
 
-unalike <- function(...) UseMethod('unalike')
+unalike <- function(x, ...) UseMethod('unalike')
 
 #' @rdname unalike
 #' @export
 
-unalike.default <- function(...) {
-  input <- list(...)
+unalike.default <- function(x, ...) {
+  input <- list(c(x, ...))
   
   ## helper function to calculate the unalikeability coefficient
   unalike.helper <- function(...)
@@ -92,16 +92,16 @@ unalike.default <- function(...) {
   ## if there are multiple args in ...
   ## if a list of numbers is passed to ...
   if (all(class(unlist(input)) %in% c('numeric', 'integer')))
-    return(unalike.helper(...))
+    return(unalike.helper(x, ...))
   ## if a list of categorical variables are passed
   if (is.character(unlist(input))) {
     warning('character values coerced to numeric')
-    return(unalike.helper(table(as.numeric(as.factor(...)))))
+    return(unalike.helper(table(as.numeric(as.factor(x, ...)))))
   }
   ## if a list of factors are passed
   if (is.factor(unlist(input))) {
     warning('factor levels coerced to numeric')
-    return(unalike.helper(table(as.numeric(...))))
+    return(unalike.helper(table(as.numeric(x, ...))))
   }
 }
 
@@ -118,7 +118,7 @@ unalike.matrix <- function(x, ...) {
 #' @rdname unalike
 #' @export
 
-unalike.data.frame <- function(x, id, rater, score, 
+unalike.data.frame <- function(x, ..., id, rater, score, 
                                summary = TRUE, plot = FALSE) {
 
   if (any(idx <- !(c(id, rater, score) %in% names(x))))
@@ -150,8 +150,6 @@ unalike.data.frame <- function(x, id, rater, score,
   }
   
   if (plot) {
-    require(ggplot2)
-    
     x$id <- as.factor(x$id)
     
     p <- ggplot(x, aes(x = factor(rater), y = rev(id))) + 

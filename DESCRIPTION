@@ -2,14 +2,14 @@ Package: ragree
 Type: Package
 Title: Rater agreement
 Description: Various measures for quantifying rater agreement
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: person("Robert", "Redd", email = "rredd@jimmy.harvard.edu",
   role = c("aut", "cre"))
 Depends:
     R (>= 3.0.2)
-Suggests:
-    irr,
-    ggplot2
+Imports:
+    ggplot2,
+    irr
 License: GPL-2
 LazyData: true
 URL: https://github.com/raredd/ragree

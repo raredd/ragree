@@ -2,6 +2,7 @@
 % Please edit documentation in R/ragree-package.R
 \docType{package}
 \name{ragree-package}
+\alias{ragree}
 \alias{ragree-package}
 \title{Rater agreement}
 \description{

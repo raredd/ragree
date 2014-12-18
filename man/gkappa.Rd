@@ -35,7 +35,7 @@ statistic to a standard normal distribution.
 \tab \code{$stat.name} \tab test statistic name \cr
 \tab \code{$p.value} \tab p-value comparing statistic to standard normal
 distribution \cr \cr
-\tab \code{\$detail} \tab \strong{a list of three containing:} \cr
+\tab \code{$detail} \tab  \cr
 \tab \code{...$p_hat_j} \tab proportion of all classifications assigned to
 category j; the pairwise agreement \cr
 \tab \code{...$p_bar} \tab overall agreement \cr
