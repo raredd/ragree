@@ -2,8 +2,7 @@
 #' 
 #' Various measures for quantifying rater agreement
 #' 
-#' @name ragree-package
-#' @aliases ragree
+#' @name ragree
 #' @import ggplot2 irr
 #' @docType package
 NULL
