@@ -1,4 +1,4 @@
 ragree
 ======
 
-rater agreement
+rater agreement functions and plots
