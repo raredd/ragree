@@ -44,12 +44,16 @@ deviation of the difference between \code{x} and \code{y} are shown.
 set.seed(1)
 x <- rnorm(100)
 y <- rnorm(100, .5)
+
+## basic usage
 ba_plot(x, y)
 
+## use line_pars to set graphical parameters of individual lines
 ba_plot(x, y, col = c('black','green')[(abs(x - y) > 2) + 1],
         panel.first = NULL, pch = '.', cex = 5,
         line_pars = list(col = c('yellow', 'red')))
         
+## panel.first/panel.last is used as in plot.default
 ba_plot(x, y, cex = 2,
         col = as.numeric(cut(x - y, c(-Inf, -2, 2, Inf))) + 2,
         panel.first = {
@@ -61,6 +65,7 @@ ba_plot(x, y, cex = 2,
 
 }
 \references{
-Bland, Altman. Sometime.
+Altman DG, Bland JM (1983). "Measurement in medicine: the analysis of method
+comparison studies". \emph{The Statistician} \strong{32}: 307–317.
 }
 
