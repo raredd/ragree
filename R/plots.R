@@ -10,6 +10,11 @@
 #' deviation of the difference between \code{x} and \code{y} are shown.
 #' 
 #' @param x,y measurements
+#' @param trend logical; if \code{TRUE}, adds trend line to data
+#' @param span numeric value that controls the degree of smoothing; see
+#' \code{\link{loess}}
+#' @param trend.n integer value for the number of data points to be used by
+#' \code{\link{predict.loess}}
 #' @param xlab,ylab x- and y-axis labels
 #' @param xlim,ylim x- and y-axis limits
 #' @param panel.first an expression to be evaluated after the plot axes are
@@ -28,7 +33,7 @@
 #' set.seed(1)
 #' x <- rnorm(100)
 #' y <- rnorm(100, .5)
-#' ba_plot(x, y, pch = 19)
+#' ba_plot(x, y)
 #' 
 #' ba_plot(x, y, col = c('black','green')[(abs(x - y) > 2) + 1],
 #'         panel.first = NULL, pch = '.', cex = 5,
@@ -45,16 +50,16 @@
 #' 
 #' @export
 
-ba_plot <- function(x, y, xlab = '', ylab = '', xlim = NULL, ylim = NULL,
-                    panel.first = grid(), ..., 
-                    line_pars = list(col = c('dodgerblue2', 'firebrick'),
-                                     lty = 'dashed', lwd = 2, cex = 1.5)) {
+ba_plot <- function(x, y, trend = TRUE, span = 0.5, trend.n = 1000L,
+                    xlab = '', ylab = '', xlim = NULL, ylim = NULL,
+                    panel.first = grid(), panel.last = NULL, ..., 
+                    line_pars = list(col = 1:2, lty = c(2,1,2))) {
   xl <- as.character(substitute(x))
   yl <- as.character(substitute(y))
-  dd <- data.frame(x = (x + y) / 2, y = x - y)
+  dd <- data.frame(x = (x + y) / 2, y = y - x)
   cols <- line_pars$col
   cols <- if (is.null(cols))
-    c('dodgerblue2','firebrick','dodgerblue2') else recycle(1:3, cols)
+    c('dodgerblue2','firebrick','dodgerblue2') else rep_len(cols, 3)
   line_pars$col <- NULL
   
   ## text positions
@@ -65,15 +70,23 @@ ba_plot <- function(x, y, xlab = '', ylab = '', xlim = NULL, ylim = NULL,
        xlim = xlim %||% range(dd$x) + c(diff(nums)) * c(0, .15),
        ylim = ylim %||% range(dd$y) + c(diff(nums)) * c(-.1, .1),
        panel.first = {
-         p <- par('usr')
          panel.first
+         p <- par('usr')
          do.call('abline', c(list(h = nums, col = cols), line_pars))
          do.call('text', c(list(
            x = p[2] - txt, y = nums, col = cols, pos = 3,
-           labels = c('-1.96 SD','mean','+1.96 SD')), line_pars))
+           labels = c('-1.96 SD', 'mean', '+1.96 SD')), line_pars))
          do.call('text', c(list(
            x = p[2] - txt, y = nums, col = cols, pos = 1,
            labels = roundr(nums, 2)), line_pars))
+       },
+       panel.last = {
+         panel.last
+         if (trend) {
+           lo <- loess(y ~ x, dd, span = span, degree = 1)
+           sx <- seq(min(dd$x), max(dd$x), length.out = trend.n)
+           lines(sx, predict(lo, sx), col = 'red', lwd = 2)
+         }
        })
   title(xlab = xlab %||% sprintf('Average of %s and %s', xl, yl),
         ylab = ylab %||% sprintf('Difference between %s and %s', xl, yl))
