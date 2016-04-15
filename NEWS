@@ -1,10 +1,10 @@
 rawr 0.0.2
 --------
-  * added Gwet functions
-  * added wide/long version of disease data to replace testset; fixed examples
-  * added bland-altman plot
-  * package structure changes
+  - added Gwet functions
+  - added wide/long version of disease data to replace testset; fixed examples
+  - added bland-altman plot
+  - package structure changes
 
 rawr 0.0.1
 --------
-  * initial build
+  - initial build
