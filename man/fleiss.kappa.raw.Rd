@@ -31,11 +31,10 @@ any rater.
 \code{"circular"}, \code{"bipolar"}, or \code{"unweighted"} for an identity
 matrix.
 }
-\author{
-Kilem L. Gwet
-}
 \references{
 Fleiss, J. L. (1981). Statistical Methods for Rates and Proportions. John 
 Wiley and Sons.
 }
-
+\author{
+Kilem L. Gwet
+}

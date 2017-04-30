@@ -2,9 +2,9 @@
 % Please edit documentation in R/agree_stats.R
 \name{unalike}
 \alias{unalike}
-\alias{unalike.data.frame}
 \alias{unalike.default}
 \alias{unalike.matrix}
+\alias{unalike.data.frame}
 \title{Coefficient of unalikeability}
 \usage{
 unalike(x, ...)
@@ -97,11 +97,10 @@ kappam.fleiss(diagnoses)
 unalike(as.matrix(diagnoses), plot = TRUE)
 
 }
-\author{
-Robert Redd \email{rredd@jimmy.harvard.edu}
-}
 \references{
 Kader, GD. Variability for Categorical Variables. \emph{Journal 
 of Statistics Education}, Vol. 15, No. 2: 2007.
 }
-
+\author{
+Robert Redd \email{rredd@jimmy.harvard.edu}
+}

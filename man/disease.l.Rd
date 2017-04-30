@@ -23,4 +23,3 @@ severity of their retinopathy rated by four ophthalmologists.
 \code{\link{disease.w}}
 }
 \keyword{datasets}
-

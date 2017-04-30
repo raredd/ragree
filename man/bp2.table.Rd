@@ -27,4 +27,3 @@ data is a contingency table.
 \author{
 Kilem L. Gwet
 }
-

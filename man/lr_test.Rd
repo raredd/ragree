@@ -26,4 +26,3 @@ loglin(dat, margin = 1:2)
 \references{
 \url{http://ww2.coastal.edu/kingw/statistics/R-tutorials/loglin.html}
 }
-

@@ -31,11 +31,10 @@ rated by any rater.
 \code{"circular"}, \code{"bipolar"}, or \code{"unweighted"} for an identity
 matrix.
 }
-\author{
-Kilem L. Gwet
-}
 \references{
 Conger, A. J. (1980), "Integration and Generalization of Kappas for Multiple
 Raters," Psychological Bulletin, 88, 322-328.
 }
-
+\author{
+Kilem L. Gwet
+}

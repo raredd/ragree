@@ -30,12 +30,11 @@ A typical entry associated with a subject and a category, represents the
 number of raters who classified the subject into the specified category. 
 Excludes all subjects that are not rated by any rater.
 }
-\author{
-Kilem L. Gwet
-}
 \references{
 Brennan, R.L., and Prediger, D. J. (1981). ``Coefficient Kappa: some uses, 
 misuses, and alternatives." Educational and Psychological Measurement, 41, 
 687-699.
 }
-
+\author{
+Kilem L. Gwet
+}

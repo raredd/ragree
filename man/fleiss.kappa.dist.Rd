@@ -30,11 +30,10 @@ A typical entry associated with a subject and a category, represents the
 number of raters who classified the subject into the specified category. 
 Excludes all subjects that are not rated by any rater.
 }
-\author{
-Kilem L. Gwet
-}
 \references{
 Fleiss, J. L. (1981). Statistical Methods for Rates and 
 Proportions. John Wiley & Sons.
 }
-
+\author{
+Kilem L. Gwet
+}

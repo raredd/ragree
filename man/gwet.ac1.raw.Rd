@@ -31,12 +31,11 @@ any rater.
 \code{"circular"}, \code{"bipolar"}, or \code{"unweighted"} for an identity
 matrix.
 }
-\author{
-Kilem L. Gwet
-}
 \references{
 Gwet, K. L. (2008). "Computing inter-rater reliability and its
 variance in the presence of high agreement." British Journal of Mathematical
 and Statistical Psychology, 61, 29 - 48.
 }
-
+\author{
+Kilem L. Gwet
+}

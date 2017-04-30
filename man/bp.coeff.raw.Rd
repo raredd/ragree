@@ -31,12 +31,11 @@ rated by any rater.
 \code{"circular"}, \code{"bipolar"}, or \code{"unweighted"} for an identity
 matrix.
 }
-\author{
-Kilem L. Gwet
-}
 \references{
 Brennan, R.L., and Prediger, D. J. (1981). ``Coefficient Kappa: some uses, 
 misuses, and alternatives." Educational and Psychological Measurement, 41,
 687-699.
 }
-
+\author{
+Kilem L. Gwet
+}

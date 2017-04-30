@@ -30,12 +30,11 @@ A typical entry associated with a subject and a category, represents the
 number of raters who classified the subject into the specified category. 
 Excludes all subjects that are not rated by any rater.
 }
-\author{
-Kilem L. Gwet
-}
 \references{
 Gwet, K. L. (2008). "Computing inter-rater reliability and its
 variance in the presence of high agreement." British Journal of Mathematical
 and Statistical Psychology, 61, 29 - 48.
 }
-
+\author{
+Kilem L. Gwet
+}

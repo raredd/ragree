@@ -35,9 +35,6 @@ The algorithm used to compute Krippendorff's alpha is very different from
 anything that was published on this topic. Instead, it follows the equations
 presented by K. Gwet (2010).
 }
-\author{
-Kilem L. Gwet
-}
 \references{
 Gwet, K. (2012). Handbook of Inter-Rater Reliability: the Definitive Guide 
 to Measuring the Extent of Agreement among Multiple Raters, 3rd Edition.
@@ -49,4 +46,6 @@ data." Sociological Methodology, 2, 139-150.
 Krippendorff (1980). Content analysis: An introduction to its methodology 
 (2nd ed.), New-bury Park, CA: Sage.
 }
-
+\author{
+Kilem L. Gwet
+}

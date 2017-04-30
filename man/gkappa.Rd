@@ -65,4 +65,3 @@ kappam.fleiss(diagnoses)
 \author{
 Robert Redd \email{rredd@jimmy.harvard.edu}
 }
-
