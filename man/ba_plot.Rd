@@ -4,20 +4,26 @@
 \alias{ba_plot}
 \title{Bland-Altman plot}
 \usage{
-ba_plot(x, y, trend = TRUE, span = 0.5, trend.n = 1000L, xlab = "",
-  ylab = "", xlim = NULL, ylim = NULL, panel.first = grid(),
-  panel.last = NULL, ..., line_pars = list(col = 1:2, lty = c(2, 1, 2)))
+ba_plot(x, y, trend = c("loess", "gam", "none"), span = 0.5,
+  trend.n = 1000L, alpha = 0.05, xlab = "", ylab = "", xlim = NULL,
+  ylim = NULL, panel.first = grid(), panel.last = NULL, ...,
+  line_pars = list(col = 1:2, lty = c(2, 1, 2)))
 }
 \arguments{
 \item{x, y}{measurements}
 
-\item{trend}{logical; if \code{TRUE}, adds trend line to data}
+\item{trend}{character string giving the type of trend line, one of
+\code{"loess"} (default), \code{"gam"} (requires the \pkg{\link{mgcv}}
+package), or \code{"none"} where no curve is drawn}
 
-\item{span}{numeric value that controls the degree of smoothing; see
-\code{\link{loess}}}
+\item{span}{if \code{trend = "loess"}, a numeric value that controls the
+degree of smoothing (see \code{\link{loess}})}
 
 \item{trend.n}{integer value for the number of data points to be used by
 \code{\link{predict.loess}}}
+
+\item{alpha}{confidence level affecting the critical values and trend
+confidence bands}
 
 \item{xlab, ylab}{x- and y-axis labels}
 
@@ -26,6 +32,10 @@ ba_plot(x, y, trend = TRUE, span = 0.5, trend.n = 1000L, xlab = "",
 \item{panel.first}{an expression to be evaluated after the plot axes are
 set up but before any plotting takes place (default is just a \code{grid});
 see \code{\link{plot.default}}}
+
+\item{panel.last}{an expression to be evaluated after plotting has taken
+place but before the axes, title, and box are added; see comments about
+\code{panel.first}}
 
 \item{...}{additional parameters passed to \code{\link{plot}}}
 
@@ -47,9 +57,12 @@ y <- rnorm(100, .5)
 
 ## basic usage
 ba_plot(x, y)
+ba_plot(x, y, trend = 'gam')
+ba_plot(x, y, trend = 'none', alpha = 0.1)
+
 
 ## use line_pars to set graphical parameters of individual lines
-ba_plot(x, y, col = c('black','green')[(abs(x - y) > 2) + 1],
+ba_plot(x, y, col = c('black', 'green')[(abs(x - y) > 2) + 1L],
         panel.first = NULL, pch = '.', cex = 5,
         line_pars = list(col = c('yellow', 'red')))
         
@@ -58,7 +71,7 @@ ba_plot(x, y, cex = 2,
         col = as.numeric(cut(x - y, c(-Inf, -2, 2, Inf))) + 2,
         panel.first = {
           p <- par('usr')
-          rect(p[1], p[3], p[2], p[4], col = 'cornsilk')
+          rect(p[1L], p[3L], p[2L], p[4L], col = 'cornsilk')
           grid(col = 'grey90', lty = 1)
         },
         line_pars = list(col = 3:5, family = 'HersheySerif'))
@@ -68,4 +81,3 @@ ba_plot(x, y, cex = 2,
 Altman DG, Bland JM (1983). "Measurement in medicine: the analysis of method
 comparison studies". \emph{The Statistician} \strong{32}: 307–317.
 }
-
