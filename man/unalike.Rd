@@ -17,12 +17,14 @@ unalike(x, ...)
   plot = FALSE)
 }
 \arguments{
-\item{x}{an \code{n x r} matrix of \code{n} subjects by \code{r} raters or
-an \code{n x m} data frame of \code{n} subjects; when \code{x} is a data 
-frame, the user must specify which columns correspond to \code{id}, 
-\code{rater}, and \code{score}}
+\item{x}{a vector of categorical data
 
-\item{...}{numeric values or vector representing the count of each variable}
+alternatively, an \code{n x r} matrix of \code{n} subjects by \code{r}
+raters or an \code{n x m} data frame of \code{n} subjects; when \code{x}
+is a data  frame, the user must specify which columns correspond to
+\code{id}, \code{rater}, and \code{score}}
+
+\item{...}{additional arguments passed to or from other methods}
 
 \item{id}{column name corresponding to IDs}
 
@@ -76,24 +78,33 @@ If \code{plot} is \code{TRUE}, a \code{\link[ggplot2]{ggplot}} heatmap will
 be printed.
 }
 \examples{
-## examples in Kader:
-## sample data
-l <- list(grp1 = c(rep('A', 7), rep('B', 3)),
-          grp2 = rep(c('A','B'), each = 5),
-          grp3 = c(rep('A', 1), rep('B', 9)))
+unalike(1, 2)
+unalike(rep(1, 10))
 
-unalike(1, 9)
-sapply(l, function(x) unalike(x))
-unalike(sample(c('a','b','c'), 20, replace = TRUE))
 
-mat <- do.call(cbind, l)
-colnames(mat) <- c('g1','g2','g3')
-unalike(t(mat)) ## see Kader
+## examples in Kader (2007):
+l <- list(
+  group1 = rep(c('A', 'B'), c(7, 3)),
+  group2 = rep(c('A', 'B'), c(5, 5)),
+  group3 = rep(c('A', 'B'), c(1, 9)),
+  group4 = rep(c('A', 'B', 'C'), c(2, 3, 5))
+)
+
+sapply(l, unalike)
+
+
+## matrix/data frames are assumed to be subjects x raters
+mat <- do.call('cbind', l)
+unalike(mat) ## see Kader
+
 
 library('irr')
-library('ggplot2')
 data(diagnoses)
+
 kappam.fleiss(diagnoses)
+unalike(as.matrix(diagnoses))
+
+library('ggplot2')
 unalike(as.matrix(diagnoses), plot = TRUE)
 
 }

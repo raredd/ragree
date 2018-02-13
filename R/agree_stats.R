@@ -2,6 +2,7 @@
 # gkappa, unalike, (unalike.default, unalike.matrix, unalike.data.frame)
 ###
 
+
 #' Generalized kappa
 #' 
 #' Calculates generalized kappa for k-raters
@@ -124,11 +125,13 @@ gkappa <- function(ratings, data, id = 'id', rater = 'rater', score = 'score') {
 #' Function to calculate the unalikeability coefficient to quantify the amount 
 #' of variability in categorical data.
 #' 
-#' @param ... numeric values or vector representing the count of each variable
-#' @param x an \code{n x r} matrix of \code{n} subjects by \code{r} raters or
-#' an \code{n x m} data frame of \code{n} subjects; when \code{x} is a data 
-#' frame, the user must specify which columns correspond to \code{id}, 
-#' \code{rater}, and \code{score}
+#' @param x a vector of categorical data
+#' 
+#' alternatively, an \code{n x r} matrix of \code{n} subjects by \code{r}
+#' raters or an \code{n x m} data frame of \code{n} subjects; when \code{x}
+#' is a data  frame, the user must specify which columns correspond to
+#' \code{id}, \code{rater}, and \code{score}
+#' @param ... additional arguments passed to or from other methods
 #' @param id column name corresponding to IDs
 #' @param rater column name corresponding to raters
 #' @param score column name corresponding to rater scores
@@ -176,69 +179,66 @@ gkappa <- function(ratings, data, id = 'id', rater = 'rater', score = 'score') {
 #' of Statistics Education}, Vol. 15, No. 2: 2007.
 #' 
 #' @examples
-#' ## examples in Kader:
-#' ## sample data
-#' l <- list(grp1 = c(rep('A', 7), rep('B', 3)),
-#'           grp2 = rep(c('A','B'), each = 5),
-#'           grp3 = c(rep('A', 1), rep('B', 9)))
+#' unalike(1, 2)
+#' unalike(rep(1, 10))
 #' 
-#' unalike(1, 9)
-#' sapply(l, function(x) unalike(x))
-#' unalike(sample(c('a','b','c'), 20, replace = TRUE))
 #' 
-#' mat <- do.call(cbind, l)
-#' colnames(mat) <- c('g1','g2','g3')
-#' unalike(t(mat)) ## see Kader
+#' ## examples in Kader (2007):
+#' l <- list(
+#'   group1 = rep(c('A', 'B'), c(7, 3)),
+#'   group2 = rep(c('A', 'B'), c(5, 5)),
+#'   group3 = rep(c('A', 'B'), c(1, 9)),
+#'   group4 = rep(c('A', 'B', 'C'), c(2, 3, 5))
+#' )
+#' 
+#' sapply(l, unalike)
+#' 
+#' 
+#' ## matrix/data frames are assumed to be subjects x raters
+#' mat <- do.call('cbind', l)
+#' unalike(mat) ## see Kader
+#' 
 #' 
 #' library('irr')
-#' library('ggplot2')
 #' data(diagnoses)
+#' 
 #' kappam.fleiss(diagnoses)
+#' unalike(as.matrix(diagnoses))
+#' 
+#' library('ggplot2')
 #' unalike(as.matrix(diagnoses), plot = TRUE)
 #' 
 #' @export
 
-unalike <- function(x, ...) UseMethod('unalike')
+unalike <- function(x, ...) {
+  UseMethod('unalike')
+}
 
-#' @rdname unalike
-#' @export
-
-unalike.default <- function(x, ...) {
-  input <- list(c(x, ...))
-  
+unalike_ <- function(x) {
   ## helper function to calculate the unalikeability coefficient
-  unalike.helper <- function(...)
-    round(1 - sum(((c(...)) / sum(c(...))) ** 2), 3)
-  
-  ## if there are multiple args in ...
-  ## if a list of numbers is passed to ...
-  if (all(class(unlist(input)) %in% c('numeric', 'integer')))
-    return(unalike.helper(x, ...))
-  ## if a list of categorical variables are passed
-  if (is.character(unlist(input))) {
-    warning('character values coerced to numeric')
-    return(unalike.helper(table(as.numeric(as.factor(x, ...)))))
-  }
-  ## if a list of factors are passed
-  if (is.factor(unlist(input))) {
-    warning('factor levels coerced to numeric')
-    return(unalike.helper(table(as.numeric(x, ...))))
-  }
+  x <- if (inherits(x, 'table'))
+    x else table(x)
+  1 - sum(prop.table(x) ^ 2)
 }
 
 #' @rdname unalike
 #' @export
+unalike.default <- function(x, ...) {
+  x <- c(x, ...)
+  unalike_(x)
+}
 
+#' @rdname unalike
+#' @export
 unalike.matrix <- function(x, ...) {
-  x <- as.data.frame(cbind(id = 1:nrow(x), x))
+  x <- as.data.frame(cbind(id = seq.int(nrow(x)), x))
   x <- reshape(x, idvar = 'id', varying = list(2:ncol(x)), direction = 'long')
-  names(x) <- c('id','rater','score')
+  names(x) <- c('id', 'rater', 'score')
   unalike.data.frame(x, id = 'id', rater = 'rater', score = 'score', ...)
 }
 
 #' @rdname unalike
 #' @export
-
 unalike.data.frame <- function(x, ..., id, rater, score, 
                                summary = TRUE, plot = FALSE) {
   
@@ -246,23 +246,21 @@ unalike.data.frame <- function(x, ..., id, rater, score,
     stop(sprintf('%s not found in data',
                  paste(c(id, rater, score)[idx], collapse = ', ')))
   
-  ## helper function to calculate the unalikeability coefficient
-  unalike.helper <- function(...)
-    round(1 - sum(((c(...)) / sum(c(...))) ** 2), 3)
-  
   ## calculate the unalikeability coefficient for each id
   x$unalike <- ave(as.numeric(as.factor(x[[score]])), list(x[[id]]),
-                   FUN = function(ii) unalike.helper(table(ii)))
+                   FUN = function(ii) unalike_(table(ii)))
   zzz1 <- x[!duplicated(x[[id]]), ]$unalike
   
-  zzz <- data.frame(Minimum = min(zzz1),
-                    Mean = mean(zzz1),
-                    Median = median(zzz1),
-                    Maximum = max(zzz1),
-                    '95% CI' = sprintf('(%s, %s)', 
-                                       round(quantile(zzz1, probs = .025), 3),
-                                       round(quantile(zzz1, probs = .975), 3)),
-                    check.names = FALSE, stringsAsFactors = FALSE)
+  zzz <- data.frame(
+    Minimum = min(zzz1),
+    Mean = mean(zzz1),
+    Median = median(zzz1),
+    Maximum = max(zzz1),
+    '95% CI' = sprintf('%.3f, %.3f',
+                       quantile(zzz1, probs = .025),
+                       quantile(zzz1, probs = .975)),
+    check.names = FALSE, stringsAsFactors = FALSE
+  )
   
   if (summary) {
     cat('\nSummary of unalikeability coefficients:\n\n')
@@ -290,15 +288,16 @@ unalike.data.frame <- function(x, ..., id, rater, score,
     print(p)
   }
   
-  zzz <- list(method = 'Unalikeability coefficient for m raters',
-              ragree.name = 'Unalike',
-              subjects = length(unique(x[[id]])),
-              raters = nrow(x) / length(unique(x[[id]])),
-              categories = length(unique(x[[score]])),
-              value = mean(x[['unalike']]),
-              zzz = zzz,
-              dat = x)
-  class(zzz) <- c('ragree', 'list')
+  zzz <- list(
+    method = 'Unalikeability coefficient for m raters',
+    ragree.name = 'Unalike',
+    subjects = length(unique(x[[id]])),
+    raters = nrow(x) / length(unique(x[[id]])),
+    categories = length(unique(x[[score]])),
+    value = mean(x[['unalike']]),
+    zzz = zzz,
+    dat = x
+  )
   
-  zzz
+  structure(zzz, class = 'ragree')
 }
