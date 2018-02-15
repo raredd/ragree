@@ -39,7 +39,7 @@ place but before the axes, title, and box are added; see comments about
 
 \item{...}{additional parameters passed to \code{\link{plot}}}
 
-\item{line_pars}{additional graphical parameters passed to \code{link{text}}
+\item{line_pars}{additional graphical parameters passed to \code{\link{text}}
 or \code{\link{abline}}; all parameters will be passed as-is except
 \code{col} which should be a vector of length one, two, or three to color
 the lines and text accordingly; see examples}
@@ -78,6 +78,6 @@ ba_plot(x, y, cex = 2,
 
 }
 \references{
-Altman DG, Bland JM (1983). "Measurement in medicine: the analysis of method
-comparison studies". \emph{The Statistician} \strong{32}: 307–317.
+Altman DG, Bland JM (1983). Measurement in medicine: the analysis of method
+comparison studies. \emph{The Statistician} \strong{32}: 307-317.
 }

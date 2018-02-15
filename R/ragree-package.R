@@ -2,10 +2,14 @@
 #' 
 #' Various measures for quantifying rater agreement.
 #' 
+#' @import ggplot2 irr stats
+#' @importFrom grDevices adjustcolor
+#' @importFrom graphics grid lines par plot polygon title
+#' @importFrom utils write.table
+#' @docType package
+#' 
 #' @name ragree-package
 #' @aliases ragree
-#' @import ggplot2 irr
-#' @docType package
 NULL
 
 #' Disease severity rating of 27 patients by four ophthalmologists per person

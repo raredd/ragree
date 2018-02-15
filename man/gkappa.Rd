@@ -12,11 +12,7 @@ gkappa(ratings, data, id = "id", rater = "rater", score = "score")
 
 \item{data}{data in long format with three columns: ids, raters, scores}
 
-\item{id}{name of the column with ids}
-
-\item{rater}{name of the column with raters}
-
-\item{score}{name of the column with scores}
+\item{id, rater, score}{column names corresponding to IDs, raters, and scores}
 }
 \value{
 A list containing the generalized kappa coefficient, the estimated

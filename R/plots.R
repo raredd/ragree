@@ -27,15 +27,15 @@
 #' @param panel.last an expression to be evaluated after plotting has taken
 #' place but before the axes, title, and box are added; see comments about
 #' \code{panel.first}
-#' @param line_pars additional graphical parameters passed to \code{link{text}}
+#' @param line_pars additional graphical parameters passed to \code{\link{text}}
 #' or \code{\link{abline}}; all parameters will be passed as-is except
 #' \code{col} which should be a vector of length one, two, or three to color
 #' the lines and text accordingly; see examples
 #' @param ... additional parameters passed to \code{\link{plot}}
 #' 
 #' @references
-#' Altman DG, Bland JM (1983). "Measurement in medicine: the analysis of method
-#' comparison studies". \emph{The Statistician} \strong{32}: 307–317.
+#' Altman DG, Bland JM (1983). Measurement in medicine: the analysis of method
+#' comparison studies. \emph{The Statistician} \strong{32}: 307-317.
 #' 
 #' @examples
 #' set.seed(1)
@@ -121,14 +121,11 @@ ba_plot <- function(x, y, trend = c('loess', 'gam', 'none'),
            }
            
            if (trend == 'gam') {
-             suppressPackageStartupMessages(
-               require('mgcv', character.only = TRUE, quietly = TRUE)
-             )
              k  <- if (missing(span))
                -1L else as.integer(span)
-             gm <- gam(y ~ s(x, k = -1L))
-             pr <- predict(gm, data.frame(x = nx),
-                           type = 'response', se.fit = TRUE)
+             gm <- mgcv::gam(y ~ s(x, k = -1L))
+             pr <- mgcv::predict.gam(gm, data.frame(x = nx),
+                                     type = 'response', se.fit = TRUE)
              lines(nx, pr$fit, col = 2, lwd = 2, lty = 2)
              do_poly(nx, pr$fit - cv * pr$se.fit, pr$fit + cv * pr$se.fit)
            }
