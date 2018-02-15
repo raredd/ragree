@@ -9,12 +9,12 @@
 \usage{
 unalike(x, ...)
 
-\method{unalike}{default}(x, ...)
+\method{unalike}{default}(x, ..., method = 1L)
 
 \method{unalike}{matrix}(x, ...)
 
-\method{unalike}{data.frame}(x, ..., id, rater, score, summary = TRUE,
-  plot = FALSE)
+\method{unalike}{data.frame}(x, id = "id", rater = "rater",
+  score = "score", summary = TRUE, plot = FALSE, ...)
 }
 \arguments{
 \item{x}{a vector of categorical data
@@ -26,17 +26,16 @@ is a data  frame, the user must specify which columns correspond to
 
 \item{...}{additional arguments passed to or from other methods}
 
-\item{id}{column name corresponding to IDs}
+\item{method}{the method for calculating the unalikeability coefficient;
+see details}
 
-\item{rater}{column name corresponding to raters}
-
-\item{score}{column name corresponding to rater scores}
+\item{id, rater, score}{column names corresponding to IDs, raters, and scores}
 
 \item{summary}{logical; if \code{TRUE}, prints summary statistics for the
 unalikeability coefficients}
 
 \item{plot}{logical; if \code{TRUE}, prints a heat map of unalikeability
-coefficients; see details}
+coefficients}
 }
 \value{
 A list containing the following:
@@ -47,10 +46,10 @@ A list containing the following:
 \tab \code{$subjects} \tab number of subjects \cr
 \tab \code{$raters} \tab number of raters \cr
 \tab \code{$categories} \tab number of categories \cr
-\tab \code{$value} \tab mean of all unalikeability coefficients \cr
-\tab \code{$zzz} \tab a data frame with the summary information printed
-when \code{summary = TRUE} \cr
-\tab \code{$dat} \tab a long data frame with all coefficients \cr
+\tab \code{$value} \tab median of all unalikeability coefficients \cr
+\tab \code{$summary} \tab a data frame with the summary information
+printed when \code{summary = TRUE} \cr
+\tab \code{$data} \tab a long data frame with all coefficients \cr
 }
 }
 \description{
@@ -74,8 +73,9 @@ The interpretation of \eqn{u} is that it represents the proportion of
 possible comparisons (pairings) which are unalike. Note that \eqn{u}
 includes comparisons of each response with itself.
 
-If \code{plot} is \code{TRUE}, a \code{\link[ggplot2]{ggplot}} heatmap will
-be printed.
+Currently, two methods for calculating the coefficient are implemented. If
+\code{method = 1}, then the formula described above is used. If
+\code{method = 2}, then the formula described in Perry (2005).
 }
 \examples{
 unalike(1, 2)
@@ -94,7 +94,7 @@ sapply(l, unalike)
 
 
 ## matrix/data frames are assumed to be subjects x raters
-mat <- do.call('cbind', l)
+mat <- do.call('cbind', l[1:3])
 unalike(mat) ## see Kader
 
 
@@ -107,10 +107,24 @@ unalike(as.matrix(diagnoses))
 library('ggplot2')
 unalike(as.matrix(diagnoses), plot = TRUE)
 
+
+dat <- data.frame(
+  id    = rep(seq.int(nrow(diagnoses)), ncol(diagnoses)),
+  rater = rep(names(diagnoses), each = nrow(diagnoses)),
+  score = unlist(diagnoses)
+)
+unalike(dat)
+
 }
 \references{
-Kader, GD. Variability for Categorical Variables. \emph{Journal 
-of Statistics Education}, Vol. 15, No. 2: 2007.
+Kader, GD. Variability for Categorical Variables. \emph{Journal of
+Statistics Education}, Vol. 15, No. 2 (2007).
+
+Perry, M. and Kader, G. Variation as Unalikeability. \emph{Teaching
+Statistics}, Vol. 27, No. 2 (2005), pp. 58-60.
+}
+\seealso{
+\code{RcmdrPlugin.ISCSS::unalike}
 }
 \author{
 Robert Redd \email{rredd@jimmy.harvard.edu}
