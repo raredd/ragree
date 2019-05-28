@@ -1,5 +1,6 @@
 ### agree stats and utilities
-# gkappa, unalike, (unalike.default, unalike.matrix, unalike.data.frame)
+# gkappa, unalike, unalike.default, unalike.matrix, unalike.data.frame,
+# maxwell, maxwelln
 # 
 # unexported:
 # unalike1, unalike2, untable
@@ -344,4 +345,74 @@ unalike.data.frame <- function(x, id = 'id', rater = 'rater', score = 'score',
   )
   
   structure(res, class = 'ragree')
+}
+
+#' Maxwell's RE
+#' 
+#' Computes Maxwell's RE coefficient for binary data of two raters.
+#' 
+#' @param ratings an \code{n x 2} matrix or data frame with \code{n} subjects
+#' and 2 raters with binary ratings
+#' 
+#' note if \code{ratings} contains more than two columns, the first two are
+#' used and the remaining are ignored; to compute the pairwise coefficient for
+#' an \code{n x r} matrix with \code{r} raters, use \code{maxwelln}; see
+#' examples
+#' 
+#' @references
+#' Maxwell, A.E. (1977). Coefficients of agreement between observers and their
+#' interpretation. \emph{Br J Psychiatry} \strong{130}: 79-83.
+#' 
+#' @seealso
+#' \code{\link[irr]{maxwell}}
+#' 
+#' @examples
+#' anx <- +(anxiety > 1)
+#' maxwell(anx)
+#' 
+#' ## compare
+#' irr::maxwell(anx[, -3])
+#' 
+#' ## to get RE for all pairs of raters
+#' maxwelln(anx)
+#' 
+#' @export
+
+maxwell <- function(ratings) {
+  x <- na.omit(as.matrix(ratings))
+  n <- nrow(x)
+  
+  r1 <- as.factor(x[, 1L])
+  r2 <- as.factor(x[, 2L])
+  
+  lvl <- unique(c(levels(r1), levels(r2)))
+  tbl <- table(factor(r1, lvl), factor(r2, lvl))
+  
+  if (!identical(dim(tbl), c(2L, 2L)))
+    stop('ratings must be binary', call. = FALSE)
+  
+  list(
+    method = 'Maxwell\'s RE for 2 raters',
+    ragree.name = 'RE',
+    subjects = n,
+    raters = 2L,
+    categories = 2L,
+    value = 2 * sum(diag(tbl)) / n - 1
+  )
+}
+
+#' @rdname maxwell
+#' @export
+maxwelln <- function(ratings) {
+  nr <- ncol(ratings)
+  cc <- combn(nr, 2L)
+  
+  res <- lapply(seq.int(ncol(cc)), function(ii) {
+    maxwell(ratings[, cc[, ii]])
+  })
+  
+  names(res) <- apply(cc, 2L, function(ii)
+    paste0(colnames(ratings)[ii], collapse = '.vs.'))
+  
+  do.call('cbind', res)
 }
