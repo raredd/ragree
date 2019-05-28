@@ -5,9 +5,9 @@
 \title{Bland-Altman plot}
 \usage{
 ba_plot(x, y, trend = c("loess", "gam", "none"), span = 0.5,
-  trend.n = 1000L, alpha = 0.05, xlab = "", ylab = "", xlim = NULL,
-  ylim = NULL, panel.first = grid(), panel.last = NULL, ...,
-  line_pars = list(col = 1:2, lty = c(2, 1, 2)))
+  trend.n = 1000L, alpha = 0.05, xlab = "", ylab = "",
+  xlim = NULL, ylim = NULL, panel.first = NULL, panel.last = NULL,
+  ..., line_pars = list(col = 1:2, lty = c(2, 1, 2)))
 }
 \arguments{
 \item{x, y}{measurements}
@@ -53,7 +53,7 @@ deviation of the difference between \code{x} and \code{y} are shown.
 \examples{
 set.seed(1)
 x <- rnorm(100)
-y <- rnorm(100, .5)
+y <- rnorm(100, 0.5)
 
 ## basic usage
 ba_plot(x, y)
@@ -63,11 +63,10 @@ ba_plot(x, y, trend = 'none', alpha = 0.1)
 
 ## use line_pars to set graphical parameters of individual lines
 ba_plot(x, y, col = c('black', 'green')[(abs(x - y) > 2) + 1L],
-        panel.first = NULL, pch = '.', cex = 5,
-        line_pars = list(col = c('yellow', 'red')))
+        pch = '.', cex = 5, line_pars = list(col = c('yellow', 'red')))
         
 ## panel.first/panel.last is used as in plot.default
-ba_plot(x, y, cex = 2,
+ba_plot(x, y, cex = 2, las = 1,
         col = as.numeric(cut(x - y, c(-Inf, -2, 2, Inf))) + 2,
         panel.first = {
           p <- par('usr')

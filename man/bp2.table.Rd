@@ -4,8 +4,8 @@
 \alias{bp2.table}
 \title{Brennan-Prediger coefficient}
 \usage{
-bp2.table(ratings, weights = diag(ncol(ratings)), conflev = 0.95, N = Inf,
-  print = TRUE)
+bp2.table(ratings, weights = diag(ncol(ratings)), conflev = 0.95,
+  N = Inf, print = TRUE)
 }
 \arguments{
 \item{ratings}{a \code{q x q} contingency table showing the distribution of

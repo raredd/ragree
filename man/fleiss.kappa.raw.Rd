@@ -4,8 +4,8 @@
 \alias{fleiss.kappa.raw}
 \title{Fleiss's generalized kappa coefficient}
 \usage{
-fleiss.kappa.raw(ratings, weights = "unweighted", conflev = 0.95, N = Inf,
-  print = TRUE)
+fleiss.kappa.raw(ratings, weights = "unweighted", conflev = 0.95,
+  N = Inf, print = TRUE)
 }
 \arguments{
 \item{ratings}{an \code{n x r} matrix of raw alphanumeric ratings from

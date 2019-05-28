@@ -12,7 +12,9 @@
 #
 # Author: Kilem L. Gwet, Ph.D.
 
-trim <- function(x) gsub("(^[[:space:]]+|[[:space:]]+$)", "", x)
+trim <- function(x) {
+  gsub("(^[[:space:]]+|[[:space:]]+$)", "", x)
+}
 
 #==============================================================================
 # gwet.ac1.raw: Gwet's AC1/Ac2 coefficient (Gwet(2008)) and its standard error 

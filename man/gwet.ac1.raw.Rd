@@ -4,8 +4,8 @@
 \alias{gwet.ac1.raw}
 \title{Gwet's AC1/AC2 coefficient}
 \usage{
-gwet.ac1.raw(ratings, weights = "unweighted", conflev = 0.95, N = Inf,
-  print = TRUE)
+gwet.ac1.raw(ratings, weights = "unweighted", conflev = 0.95,
+  N = Inf, print = TRUE)
 }
 \arguments{
 \item{ratings}{an \code{n x r} matrix of raw alphanumeric ratings from

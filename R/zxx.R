@@ -1,6 +1,7 @@
 ### misc
-# print.ragree, lr_test
+# print.ragree, print.ragree1, lr_test
 ###
+
 
 #' ragree class print method
 #' 
@@ -10,7 +11,6 @@
 #' @export
 
 print.ragree <- function (x, ...) {
-  
   cat(' ', x$method, '\n\n', sep = '')
   cat(paste('  Subjects =', x$subjects, '\n'))
   cat(paste('    Raters =', x$raters, '\n'))
@@ -46,15 +46,13 @@ print.ragree1 <- function (x, digits = 4L, quote = TRUE, prefix = "", ...) {
   cat("data:  ", x$data.name, "\n", sep = "")
   out <- character()
   if (!is.null(x$statistic)) 
-    out <- c(out, paste(names(x$statistic), "=", format(round(x$statistic, 
-                                                              4))))
+    out <- c(out, paste(names(x$statistic), "=", format(round(x$statistic, 4))))
   if (!is.null(x$parameter)) 
-    out <- c(out, paste(names(x$parameter), "=", format(round(x$parameter, 
-                                                              3))))
+    out <- c(out, paste(names(x$parameter), "=", format(round(x$parameter, 3))))
   if (!is.null(x$p.value)) {
     fp <- format.pval(x$p.value, digits = digits)
-    out <- c(out, paste("p-value", if (substr(fp, 1L, 1L) == 
-                                       "<") fp else paste("=", fp)))
+    out <- c(out, paste("p-value", if (substr(fp, 1L, 1L) == "<")
+      fp else paste("=", fp)))
   }
   cat(strwrap(paste(out, collapse = ", ")), sep = "\n")
   if (!is.null(x$alternative)) {
@@ -107,17 +105,17 @@ print.ragree1 <- function (x, digits = 4L, quote = TRUE, prefix = "", ...) {
 
 lr_test <- function(x, print = TRUE) {
   chi.out <- chisq.test(x, correct = FALSE)
-  dat <- chi.out[[6]]
-  ratios <- dat / chi.out[[7]]
+  dat     <- chi.out$observed
+  ratios  <- dat / chi.out$expected
   
   ## lr chisq statistic, degrees of freedom, p-value
-  lrt <- 2 * sum(dat * log(ratios))
-  df <- unname(chi.out[[2]])
+  lrt  <- 2 * sum(dat * log(ratios))
+  df   <- unname(chi.out$parameter)
   pval <- pchisq(lrt, df, lower.tail = FALSE)
   
   if (print) 
     print(sprintf('LR: %s on %s degrees of freedom (p-value: %s)',
-                  round(lrt, digits = 2), df, pvalr(pval)))
+                  round(lrt, digits = 2L), df, pvalr(pval)))
   
-  list(lrt = lrt, df = df, p.value = pval, pearson = unname(chi.out[[1]]))
+  list(lrt = lrt, df = df, p.value = pval, pearson = unname(chi.out$statistic))
 }

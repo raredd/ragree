@@ -4,8 +4,8 @@
 \alias{gwet.ac1.dist}
 \title{Gwet's AC1/AC2 coefficient}
 \usage{
-gwet.ac1.dist(ratings, weights = "unweighted", conflev = 0.95, N = Inf,
-  print = TRUE)
+gwet.ac1.dist(ratings, weights = "unweighted", conflev = 0.95,
+  N = Inf, print = TRUE)
 }
 \arguments{
 \item{ratings}{an \code{n x q} matrix showing the number of raters by

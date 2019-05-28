@@ -4,8 +4,8 @@
 \alias{conger.kappa.raw}
 \title{Conger's kappa coefficient}
 \usage{
-conger.kappa.raw(ratings, weights = "unweighted", conflev = 0.95, N = Inf,
-  print = TRUE)
+conger.kappa.raw(ratings, weights = "unweighted", conflev = 0.95,
+  N = Inf, print = TRUE)
 }
 \arguments{
 \item{ratings}{an \code{n x r} matrix of raw alphanumeric ratings from

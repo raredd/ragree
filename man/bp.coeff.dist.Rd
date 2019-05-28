@@ -4,8 +4,8 @@
 \alias{bp.coeff.dist}
 \title{Brennan-Prediger coefficient}
 \usage{
-bp.coeff.dist(ratings, weights = "unweighted", conflev = 0.95, N = Inf,
-  print = TRUE)
+bp.coeff.dist(ratings, weights = "unweighted", conflev = 0.95,
+  N = Inf, print = TRUE)
 }
 \arguments{
 \item{ratings}{an \code{n x q} matrix showing the number of raters by
