@@ -18,6 +18,5 @@ License: GPL-2
 LazyData: true
 URL: https://github.com/raredd/ragree
 VignetteBuilder: knitr
-Roxygen: list(wrap = FALSE)
 RoxygenNote: 6.1.1
 Encoding: UTF-8
